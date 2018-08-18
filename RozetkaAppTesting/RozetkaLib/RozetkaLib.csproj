@@ -66,10 +66,14 @@
   <ItemGroup>
     <Compile Include="CatalogPage.cs" />
     <Compile Include="ElemHelper.cs" />
+    <Compile Include="LaptopsCategory.cs" />
     <Compile Include="NavigationPanel.cs" />
     <Compile Include="ProductPage.cs" />
     <Compile Include="ProductsListPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FilterPanel.cs" />
+    <Compile Include="SearchPage.cs" />
+    <Compile Include="SortPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

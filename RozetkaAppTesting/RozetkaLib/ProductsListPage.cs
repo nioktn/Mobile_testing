@@ -21,6 +21,7 @@ namespace RozetkaLib
         private readonly By _btnFilter = By.XPath("//android.widget.LinearLayout/android.widget.RelativeLayout[2]");
         private readonly By _btnView = By.XPath("//android.widget.LinearLayout/android.widget.FrameLayout[1]/android.widget.ImageView");
         private readonly By _productsList = By.XPath("//android.support.v7.widget.RecyclerView/android.widget.LinearLayout");
+        private readonly By _productName = By.XPath(".//android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.TextView");
 
         public AndroidElement BtnSort { get => driver.FindElement(_btnSort); }
         public AndroidElement BtnFilter { get => driver.FindElement(_btnFilter); }
@@ -47,7 +48,7 @@ namespace RozetkaLib
         {
             foreach (var item in ProductsList)
             {
-                if (item.Text.Contains(namePart)) return item;
+                if (item.FindElement(_productName).Text.Contains(namePart)) return item;
             }
             return null;
         }
@@ -55,12 +56,23 @@ namespace RozetkaLib
         public AndroidElement GetProduct(String namePart, WebDriverWait wait)
         {
             ElemHelper.ScrollToElement(driver, namePart);
-            wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(_productsList));
+            //wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(_productsList));
             foreach (var item in ProductsList)
             {
-                if (item.Text.Contains(namePart)) return item;
+                if (item.FindElement(_productName).Text.Contains(namePart)) return item;
             }
             return null;
         }
+
+        public AndroidElement GetToCartButton(AndroidElement androidElement)
+        {
+            return (AndroidElement)androidElement.FindElement(By.XPath(".//android.widget.RelativeLayout/android.widget.ImageView[1]"));
+        }
+
+        public AndroidElement GetToWishListButton(AndroidElement androidElement)
+        {
+            return (AndroidElement)androidElement.FindElement(By.XPath(".//android.widget.RelativeLayout/android.widget.ImageView[2]"));
+        }
+
     }
 }

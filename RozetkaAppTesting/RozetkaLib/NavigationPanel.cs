@@ -16,7 +16,7 @@ namespace RozetkaLib
 {
     public class NavigationPanel
     {
-        private readonly AppiumDriver<AndroidElement> driver;
+        private readonly AndroidDriver<AndroidElement> driver;
         private readonly By _secRecyclerView = By.Id("ua.com.rozetka.shop:id/rv_menu");
         private readonly By _btnSignIn = By.Id("ua.com.rozetka.shop:id/menu_sign_up");
         private readonly By _btnSignUp = By.Id("ua.com.rozetka.shop:id/menu_sign_up");
@@ -52,9 +52,26 @@ namespace RozetkaLib
             this.driver = driver;
         }
 
-        public bool IsRecyclerViewOpened()
+        public CatalogPage OpenCatalogPage(WebDriverWait wait)
+        {
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnCatalog));
+            BtnCatalog.Click();
+            CatalogPage catPage = new CatalogPage(driver);
+            return catPage;
+        }
+
+        public bool IsNavigationPanelOpened()
         {
             return ElemHelper.IsElementVisible(driver, _btnMain);
+        }
+
+        public void Close()
+        {
+            if (IsNavigationPanelOpened())
+            {
+                ISendsKeyEvents sendsKey = driver;
+                sendsKey.PressKeyCode(AndroidKeyCode.Back);
+            }
         }
 
         public void Open()

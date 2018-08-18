@@ -35,7 +35,8 @@ namespace RozetkaLib
 
         public static void ScrollToElement(AndroidDriver<AndroidElement> driver, String textContent)
         {
-            driver.FindElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textMatches(\"" + textContent + "\").instance(0))"));
+            driver.FindElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\"" + textContent + "\").instance(0))"));
+            //driver.FindElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textMatches(\"" + textContent + "\").instance(0))"));
         }
     }
 }

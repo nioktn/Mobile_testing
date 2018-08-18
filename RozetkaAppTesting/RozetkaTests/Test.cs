@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium.Appium.Interfaces;
 using RozetkaLib;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Appium.MultiTouch;
 
 namespace RozetkaTests
 {
@@ -25,7 +26,7 @@ namespace RozetkaTests
         {
             navPan = new NavigationPanel(driver);
             navPan.Open(wait);
-            Assert.IsTrue(navPan.IsRecyclerViewOpened());
+            Assert.IsTrue(navPan.IsNavigationPanelOpened());
         }
 
         [Test]
@@ -54,6 +55,53 @@ namespace RozetkaTests
             catPage.ChildProducts.Click();
 
             Thread.Sleep(5000);
+        }
+
+
+        [Test]
+        public void ChooseSomeNotebooks()
+        {
+            navPan = new NavigationPanel(driver);
+            navPan.OpenCatalogPage(wait)
+                .LaptopsAndComputers.Click();
+
+            LaptopsCategory lapCat = new LaptopsCategory(driver);
+            Thread.Sleep(2000);
+
+
+            TouchAction tacts = new TouchAction(driver);
+            tacts.Tap(lapCat.GetCategoryByName("Ноутбуки")).Perform();
+            Thread.Sleep(2000);
+
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, lapCat._btnAllLaptops));
+            Thread.Sleep(2000);
+
+            lapCat.BtnAllLaptops.Click();
+            Thread.Sleep(2000);
+
+            ProductsListPage prLsPage = new ProductsListPage(driver);
+            prLsPage.GetToWishListButton(prLsPage.GetProduct("3GC44EA", wait)).Click();
+            prLsPage.GetToWishListButton(prLsPage.GetProduct("90NR0GN1-M03880", wait)).Click();
+            prLsPage.GetToWishListButton(prLsPage.GetProduct("2EW20ES", wait)).Click();
+            Thread.Sleep(5000);
+            navPan.Open();
+            ElemHelper.ScrollToElement(driver, "Списки желаний");
+            navPan.BtnWishList.Click();
+            Thread.Sleep(3000);
+        }
+
+        [Test]
+        public void SearchTest()
+        {
+            navPan = new NavigationPanel(driver);
+            Thread.Sleep(5000);
+            navPan.Close();
+            SearchPage searchPage = new SearchPage(driver);
+            searchPage.Open(wait)
+                .EnterSearchQuery("notebook", wait);
+            Thread.Sleep(3000);
+            Thread.Sleep(5000);
+
         }
     }
 }
