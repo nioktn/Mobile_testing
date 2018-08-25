@@ -1,17 +1,7 @@
-﻿using System;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
-using OpenQA.Selenium.Appium.Android.Interfaces;
-using OpenQA.Selenium.Appium.Enums;
-using OpenQA.Selenium.Remote;
-using System.Collections.Generic;
-using OpenQA.Selenium.Appium.Interfaces;
-using RozetkaLib;
+using System;
 
 namespace RozetkaLib
 {
@@ -20,6 +10,12 @@ namespace RozetkaLib
         public static bool IsElementVisible(IWebDriver driver, By Locator)
         {
             try { return driver.FindElement(Locator).Displayed; }
+            catch { return false; }
+        }
+
+        public static bool IsElementVisible(IWebDriver driver, By Locator, AndroidElement baseElement)
+        {
+            try { return baseElement.FindElement(Locator).Displayed; }
             catch { return false; }
         }
 

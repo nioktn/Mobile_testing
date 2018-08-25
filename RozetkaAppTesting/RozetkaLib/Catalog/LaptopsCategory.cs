@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
+using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,15 @@ namespace RozetkaLib
                     return item;
             }
             return null;
+        }
+
+        public ProductsListPage OpenAllLaptopsProductsList(WebDriverWait wait)
+        {
+            TouchAction tacts = new TouchAction(driver);
+            tacts.Tap(GetCategoryByName("Ноутбуки")).Perform();
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnAllLaptops));
+            BtnAllLaptops.Click();
+            return new ProductsListPage(driver);
         }
     }
 }

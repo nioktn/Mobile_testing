@@ -51,8 +51,8 @@ namespace RozetkaTests
             navPan.BtnCatalog.Click();
             CatalogPage catPage = new CatalogPage(driver);
 
-            ElemHelper.ScrollToElement(driver, catPage._childProducts);
-            catPage.ChildProducts.Click();
+            //ElemHelper.ScrollToElement(driver, catPage._childProducts);
+            //catPage.ChildProducts.Click();
 
             Thread.Sleep(5000);
         }
@@ -62,32 +62,37 @@ namespace RozetkaTests
         public void ChooseSomeNotebooks()
         {
             navPan = new NavigationPanel(driver);
-            navPan.OpenCatalogPage(wait)
-                .LaptopsAndComputers.Click();
-
+            navPan.OpenCatalogPage(wait).SelectCategory("Ноутбуки и компьютеры", wait);
             LaptopsCategory lapCat = new LaptopsCategory(driver);
-            Thread.Sleep(2000);
+            ProductsListPage productsList = lapCat.OpenAllLaptopsProductsList(wait);
 
+            List<String> laptopsToAddNames = new List<String> { "90NB0HS1-M00450", "90NR0GN1-M03880", "80XL03UJRA" };
+            
+            foreach (var item in laptopsToAddNames)
+            {
+                AndroidElement currentProduct = productsList.GetProduct(item, wait);
+                new ProductCompactView(driver, currentProduct).BtnAddToWishList.Click();
+            }
 
-            TouchAction tacts = new TouchAction(driver);
-            tacts.Tap(lapCat.GetCategoryByName("Ноутбуки")).Perform();
-            Thread.Sleep(2000);
+            IList<AndroidElement> prodElemsInWishList = navPan.
+                Open(wait).
+                OpenWishLists(wait).
+                OpenGuestWishList(wait).
+                WishedProductsList;
 
-            wait.Until((d) => ElemHelper.IsElementVisible(driver, lapCat._btnAllLaptops));
-            Thread.Sleep(2000);
+            //List<String> wishListProductsNames = new List<String>();
 
-            lapCat.BtnAllLaptops.Click();
-            Thread.Sleep(2000);
+            bool[] result = new bool[3];
+            int count = 0;
+            foreach (var item in prodElemsInWishList)
+            {
+                //wishListProductsNames.Add(new ProductCompactView(driver, item).ProductName.Text);
+                result[count] = new ProductCompactView(driver, item).ProductName.Text.Contains(laptopsToAddNames[count]);
+                count++;
+            }
 
-            ProductsListPage prLsPage = new ProductsListPage(driver);
-            prLsPage.GetToWishListButton(prLsPage.GetProduct("3GC44EA", wait)).Click();
-            prLsPage.GetToWishListButton(prLsPage.GetProduct("90NR0GN1-M03880", wait)).Click();
-            prLsPage.GetToWishListButton(prLsPage.GetProduct("2EW20ES", wait)).Click();
-            Thread.Sleep(5000);
-            navPan.Open();
-            ElemHelper.ScrollToElement(driver, "Списки желаний");
-            navPan.BtnWishList.Click();
-            Thread.Sleep(3000);
+            //CollectionAssert.AreEquivalent(wishListProductsNames, laptopsToAddNames);
+            Assert.IsTrue(result[0] & result[1] & result[2]);
         }
 
         [Test]
