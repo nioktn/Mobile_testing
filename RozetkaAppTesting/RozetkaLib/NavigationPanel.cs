@@ -3,36 +3,18 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.Interfaces;
 using OpenQA.Selenium.Support.UI;
-using System.Threading;
 
 namespace RozetkaLib
 {
     public class NavigationPanel
     {
         private readonly AndroidDriver<AndroidElement> driver;
-        //private readonly By _navPanel = By.Id("ua.com.rozetka.shop:id/rv_menu");
-        //private readonly By _btnSignIn = By.Id("ua.com.rozetka.shop:id/menu_sign_up");
-        //private readonly By _btnSignUp = By.Id("ua.com.rozetka.shop:id/menu_sign_up");
-        //private readonly By _btnMain = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[1]");
-        //private readonly By _btnCatalog = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[2]");
-        //private readonly By _btnShare = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[3]");
-        //private readonly By _btnDiscount = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[4]");
-        //private readonly By _btnPersonalData = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[5]");
-        //private readonly By _btnCart = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[6]");
-        //private readonly By _btnWishLists = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[7]");
-        //private readonly By _btnWaitList = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[8]");
-        //private readonly By _btnOrders = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[9]");
-        //private readonly By _btnComparison = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[10]");
-        //private readonly By _btnWatched = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[11]");
-        //private readonly By _btnFeedback = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[12]");
-        //private readonly By _btnInfo = By.XPath("//android.support.v7.widget.RecyclerView[1]/android.widget.RelativeLayout[13]");
         private readonly By _btnNavPage = By.XPath("//android.widget.ImageButton[@content-desc='Перейти вверх']");
         private readonly By _navPanel = By.Id("ua.com.rozetka.shop:id/rv_menu");
         private readonly By _btnSignIn = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Вход\")");
         private readonly By _btnSignUp = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Регистрация\")");
         private readonly By _btnMain = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Главная\")");
         private readonly By _btnCatalog = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Каталог\")");
-        //private readonly By _btnCatalog = By.XPath("//*[@text='Каталог']");
         private readonly By _btnShare = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Акции\")");
         private readonly By _btnDiscount = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Скидки\")");
         private readonly By _btnPersonalData = MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"Личные данные\")");
@@ -113,7 +95,6 @@ namespace RozetkaLib
             return whLsPg;
         }
 
-
         public WishListsPage OpenWishLists(WebDriverWait wait)
         {
             ElemHelper.ScrollToElement(driver, "Списки желаний");
@@ -121,6 +102,23 @@ namespace RozetkaLib
             BtnWishLists.Click();
             WishListsPage whLsPg = new WishListsPage(driver);
             return whLsPg;
+        }
+
+        public CartPage OpenCart()
+        {
+            ElemHelper.ScrollToElement(driver, "Корзина");
+            BtnCart.Click();
+            CartPage crtPage = new CartPage(driver);
+            return crtPage;
+        }
+
+        public CartPage OpenCart(WebDriverWait wait)
+        {
+            ElemHelper.ScrollToElement(driver, "Корзина");
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnCart));
+            BtnCart.Click();
+            CartPage crtPage = new CartPage(driver);
+            return crtPage;
         }
 
         public LoginPage OpenLoginPage()

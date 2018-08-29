@@ -1,23 +1,13 @@
-﻿using System;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Appium;
+﻿using NUnit.Framework;
 using OpenQA.Selenium.Appium.Android;
-using OpenQA.Selenium.Appium.Android.Interfaces;
-using OpenQA.Selenium.Appium.Enums;
-using OpenQA.Selenium.Remote;
-using System.Collections.Generic;
-using OpenQA.Selenium.Appium.Interfaces;
 using RozetkaLib;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Appium.MultiTouch;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace RozetkaTests
 {
-    public class Test : BlankTest
+    public class Test : HollowTest
     {
         NavigationPanel navPan;
 
@@ -67,7 +57,7 @@ namespace RozetkaTests
             ProductsListPage productsList = lapCat.OpenAllLaptopsProductsList(wait);
 
             List<String> laptopsToAddNames = new List<String> { "90NB0HS1-M00450", "90NR0GN1-M03880", "80XL03UJRA" };
-            
+
             foreach (var item in laptopsToAddNames)
             {
                 AndroidElement currentProduct = productsList.GetProduct(item, wait);
@@ -106,6 +96,7 @@ namespace RozetkaTests
                 .EnterSearchQuery("notebook", wait);
             Thread.Sleep(3000);
             Thread.Sleep(5000);
+
 
         }
     }

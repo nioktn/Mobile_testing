@@ -69,17 +69,19 @@
   <ItemGroup>
     <Compile Include="Account\LoginPage.cs" />
     <Compile Include="Account\RegistrationPage.cs" />
+    <Compile Include="CartPage.cs" />
     <Compile Include="Catalog\CatalogPage.cs" />
     <Compile Include="ElemHelper.cs" />
     <Compile Include="Catalog\LaptopsCategory.cs" />
     <Compile Include="NavigationPanel.cs" />
     <Compile Include="ProductPage.cs" />
-    <Compile Include="ProductsList\ProductCompactView.cs" />
-    <Compile Include="ProductsList\ProductsListPage.cs" />
+    <Compile Include="Products\CartItemView.cs" />
+    <Compile Include="Products\ProductCompactView.cs" />
+    <Compile Include="Products\ProductsListPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProductsList\FilterPanel.cs" />
+    <Compile Include="Products\FilterPanel.cs" />
     <Compile Include="SearchPage.cs" />
-    <Compile Include="ProductsList\SortPanel.cs" />
+    <Compile Include="Products\SortPanel.cs" />
     <Compile Include="WishLists\WishList.cs" />
     <Compile Include="WishLists\WishListsPage.cs" />
   </ItemGroup>

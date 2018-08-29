@@ -6,14 +6,15 @@ using System.Collections.Generic;
 
 namespace RozetkaTests
 {
-    public class TC_WishLists : BlankTest
+    public class WishLists_Tests : HollowTest
     {
         NavigationPanel navPanel;
 
         [Test]
-        public void Test_OpenLocalWishList()
+        public void Test_AccountWishListOpen()
         {
             navPanel = new NavigationPanel(driver);
+            wait.Until((d) => navPanel.IsNavigationPanelOpened());
             navPanel.OpenLoginPage(wait)
                 .LogIn("testmail@outlook.com", "Testpassword1", wait);
 
@@ -21,32 +22,37 @@ namespace RozetkaTests
                 .Open(wait)
                 .OpenWishLists(wait)
                 .OpenGuestWishList(wait);
+
             String actualTitle = localWishList.EmptyTitle.Text;
             String expectedTitle = "Этот список пуст";
             StringAssert.AreEqualIgnoringCase(expectedTitle, actualTitle);
         }
 
         [Test]
-        public void WishListTests()
+        public void Test_WishListAddRemoveProducts()
         {
-            Test_AddLaptopsToWishList();
-            Test_RemoveLaptopsFromWishList();
+            bool laptopsAddedToWishList = AddLaptopsToWishList();
+            bool laptopsRemovedFromWishList = RemoveLaptopsFromWishList();
+            Assert.IsTrue(laptopsAddedToWishList & laptopsRemovedFromWishList);
         }
 
-        public void Test_AddLaptopsToWishList()
+        public bool AddLaptopsToWishList()
         {
             navPanel = new NavigationPanel(driver);
             navPanel.OpenCatalogPage(wait).SelectCategory("Ноутбуки и компьютеры", wait);
             LaptopsCategory lapCat = new LaptopsCategory(driver);
             ProductsListPage productsList = lapCat.OpenAllLaptopsProductsList(wait);
+            productsList.OpenSortPanel(wait).
+             RbtnExpensiveCheap.Click();
 
-            List<String> laptopsModels = new List<String> { "81AK00ALRA", "90NR0GP1-M00950", "80XL03UJRA" };
+            List<String> laptopsModels = new List<String> { "GT75VR7RE-230UA", "GT758RF-239UA", "MPTU35/Z0UE" };
 
             foreach (var item in laptopsModels)
             {
                 AndroidElement currentProduct = productsList.GetProduct(item, wait);
-                if (currentProduct != null) new ProductCompactView(driver, currentProduct).AddToWishList(wait);
-                else continue;
+                //if (currentProduct != null) new ProductCompactView(driver, currentProduct).AddToWishList(wait);
+                //else continue;
+                new ProductCompactView(driver, currentProduct).AddToWishList(wait);
             }
 
             IList<AndroidElement> prodElemsInWishList = navPanel.
@@ -62,20 +68,18 @@ namespace RozetkaTests
                 matchNames[count] = new ProductCompactView(driver, item).ProductName.Text.Contains(laptopsModels[count]);
                 count++;
             }
-
-            Assert.IsTrue(matchNames[0] & matchNames[1] & matchNames[2]);
+            return matchNames[0] & matchNames[1] & matchNames[2];
         }
 
-        public void Test_RemoveLaptopsFromWishList()
+        public bool RemoveLaptopsFromWishList()
         {
             WishList rmWishList = new WishList(driver);
             var currentWishedProductsList = rmWishList.WishedProductsList;
-            for (int i = currentWishedProductsList.Count-1; i >= 0; i--)
+            for (int i = currentWishedProductsList.Count - 1; i >= 0; i--)
             {
                 new ProductCompactView(driver, currentWishedProductsList[i]).DeleteFromWishList(wait);
             }
-
-            Assert.IsTrue(wait.Until((d) => rmWishList.IsEmpty()));
+            return wait.Until((d) => rmWishList.IsEmpty());
         }
     }
 }

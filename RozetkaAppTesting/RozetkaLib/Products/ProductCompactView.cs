@@ -9,18 +9,13 @@ namespace RozetkaLib
 {
     public class ProductCompactView
     {
-        public static bool NiceOne = false;
         private readonly AndroidDriver<AndroidElement> driver;
         private readonly AndroidElement baseElement;
         private readonly By _oldPrice = MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"ua.com.rozetka.shop:id/view_price_2_tv_old_price\")");
         private readonly By _newPrice = MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"ua.com.rozetka.shop:id/view_price_2_tv_price\")");
         private readonly By _productName = MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"ua.com.rozetka.shop:id/tv_title\")");
-        //private readonly By _productName = By.XPath("//*[contains(@resource-id, 'tv_title')]");
         private readonly By _btnAddToCart = MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"ua.com.rozetka.shop:id/iv_cart\")");
         private readonly By _btnAddToWishList = MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"ua.com.rozetka.shop:id/iv_wish\")");
-        //private readonly By _btnAddToWishList = By.XPath("//*[contains(@resource-id, 'iv_wish')]");
-
-        //private readonly By _btnSettings = MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"ua.com.rozetka.shop:id/iv_menu\")");
         private readonly By _btnSettings = By.XPath("//*[contains(@resource-id, 'iv_menu')]");
         private readonly By _btnDelete = By.XPath("//android.widget.LinearLayout");
         private readonly By _settingsOptions = By.XPath("//android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout");
@@ -32,7 +27,6 @@ namespace RozetkaLib
         public AndroidElement BtnAddToCart { get => baseElement.FindElement(_btnAddToCart) as AndroidElement; }
         public AndroidElement BtnAddToWishList { get => baseElement.FindElement(_btnAddToWishList) as AndroidElement; }
         public AndroidElement BtnSettings { get => baseElement.FindElement(_btnSettings) as AndroidElement; }
-        //public AndroidElement BtnDelete { get => FindElement(_btnDelete) as AndroidElement; }
         public AndroidElement BtnSettingsDelete { get => driver.FindElement(_btnSettingsDelete) as AndroidElement; }
         public IList<AndroidElement> SettingsOptions { get => driver.FindElements(_settingsOptions) as IList<AndroidElement>; }
 
@@ -45,7 +39,6 @@ namespace RozetkaLib
         public void DeleteFromWishList()
         {
             BtnSettings.Click();
-            //BtnDelete.Click();
         }
 
         public String GetTitle(WebDriverWait wait)
@@ -54,12 +47,28 @@ namespace RozetkaLib
             return ProductName.Text;
         }
 
+        public void AddToWishList()
+        {
+            BtnAddToWishList.Click();
+        }
+
         public void AddToWishList(WebDriverWait wait)
         {
             wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnAddToWishList, baseElement));
             BtnAddToWishList.Click();
         }
-        
+
+        public void AddToCart()
+        {
+            BtnAddToWishList.Click();
+        }
+
+        public void AddToCart(WebDriverWait wait)
+        {
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnAddToCart, baseElement));
+            BtnAddToCart.Click();
+        }
+
         public AndroidElement SelectFromSettings(String option)
         {
             foreach (var item in SettingsOptions)
@@ -76,9 +85,8 @@ namespace RozetkaLib
 
         public void OpenProductSettings(WebDriverWait wait)
         {
-            var settingsButton = _btnSettings;
-            wait.Until((d) => ElemHelper.IsElementVisible(driver, settingsButton, baseElement));
-            baseElement.FindElement(settingsButton).Click();
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnSettings, baseElement));
+            baseElement.FindElement(_btnSettings).Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(_settingsOptions));
         }
 

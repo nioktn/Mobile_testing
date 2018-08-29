@@ -1,13 +1,13 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.Android;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium.Appium.Android;
 
 namespace RozetkaLib
 {
     class FilterPanel
     {
         private readonly AndroidDriver<AndroidElement> driver;
+
+        // TODO FilterPanel locators
+
         //    private readonly By _rbtnCheapExpensive = By.XPath("android.widget.RadioGroup/android.widget.RadioButton[1]");
         //    private readonly By _rbtnExpensiveCheap = By.XPath("android.widget.RadioGroup/android.widget.RadioButton[2]");
         //    private readonly By _rbtnPopular = By.XPath("android.widget.RadioGroup/android.widget.RadioButton[3]");

@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.Interfaces;
 using OpenQA.Selenium.Support.UI;
@@ -16,7 +15,7 @@ namespace RozetkaLib
 
         public AndroidElement LoginField { get => driver.FindElement(_loginField); }
         public AndroidElement PassField { get => driver.FindElement(_passField); }
-        public AndroidElement BtnLogin { get => driver.FindElement(_btnLogin);  }
+        public AndroidElement BtnLogin { get => driver.FindElement(_btnLogin); }
 
         public LoginPage(AndroidDriver<AndroidElement> driver)
         {

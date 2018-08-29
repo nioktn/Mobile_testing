@@ -1,17 +1,9 @@
-﻿using System;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
-using OpenQA.Selenium.Appium.Android.Interfaces;
-using OpenQA.Selenium.Appium.Enums;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
+using System;
 using System.Collections.Generic;
-using OpenQA.Selenium.Appium.Interfaces;
-using RozetkaLib;
 
 namespace RozetkaLib
 {
@@ -57,7 +49,7 @@ namespace RozetkaLib
         public void SelectCategory(String catName, WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(_categoriesList));
-            ElemHelper.ScrollToElement(driver, catName);            
+            ElemHelper.ScrollToElement(driver, catName);
             try
             {
                 driver.FindElement(MobileBy.AndroidUIAutomator("new UiSelector().textContains(\"" + catName + "\")")).Click();

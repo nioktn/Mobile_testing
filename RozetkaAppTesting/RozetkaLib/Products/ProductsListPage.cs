@@ -1,16 +1,8 @@
-﻿using System;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Android;
-using OpenQA.Selenium.Appium.Android.Interfaces;
-using OpenQA.Selenium.Appium.Enums;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
+using System;
 using System.Collections.Generic;
-using OpenQA.Selenium.Appium.Interfaces;
 
 namespace RozetkaLib
 {
@@ -21,7 +13,6 @@ namespace RozetkaLib
         private readonly By _btnFilter = By.XPath("//android.widget.LinearLayout/android.widget.RelativeLayout[2]");
         private readonly By _btnView = By.XPath("//android.widget.LinearLayout/android.widget.FrameLayout[1]/android.widget.ImageView");
         private readonly By _productsList = By.XPath("//android.support.v7.widget.RecyclerView/android.widget.LinearLayout");
-        //private readonly By _productsList = By.XPath("//*[contains(@resource-id, 'rl_background')]");
         private readonly By _productName = By.XPath(".//android.widget.TextView");
 
         public AndroidElement BtnSort { get => driver.FindElement(_btnSort); }
@@ -31,7 +22,8 @@ namespace RozetkaLib
         {
             get
             {
-                return driver.FindElements(_productsList);            }
+                return driver.FindElements(_productsList);
+            }
         }
 
         public ProductsListPage(AndroidDriver<AndroidElement> driver)
@@ -44,6 +36,21 @@ namespace RozetkaLib
             return ProductsList as List<AndroidElement>;
         }
 
+        public SortPanel OpenSortPanel()
+        {
+            BtnSort.Click();
+            return new SortPanel(driver);
+        }
+
+        public SortPanel OpenSortPanel(WebDriverWait wait)
+        {
+            wait.Until((d) => ElemHelper.IsElementVisible(driver, _btnSort));
+            BtnSort.Click();
+            SortPanel srtPanelInstance = new SortPanel(driver);
+            wait.Until((d) => srtPanelInstance.IsOpened());
+            return srtPanelInstance;
+        }
+
         public IList<AndroidElement> GetAvailableProducts(WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(_productsList));
@@ -52,6 +59,7 @@ namespace RozetkaLib
 
         public AndroidElement GetProduct(String namePart)
         {
+            ElemHelper.ScrollToElement(driver, namePart);
             foreach (var item in ProductsList)
             {
                 if (new ProductCompactView(driver, item).ProductName.Text.Contains(namePart)) return item;
@@ -64,44 +72,12 @@ namespace RozetkaLib
             ElemHelper.ScrollToElement(driver, namePart);
             var currentProductsList = GetAvailableProducts(wait);
 
-            for (int i = currentProductsList.Count-1; i > 0; i--)
-            {                
+            for (int i = currentProductsList.Count - 1; i > 0; i--)
+            {
                 if (new ProductCompactView(driver, currentProductsList[i]).GetTitle(wait).Contains(namePart))
                     return currentProductsList[i];
             }
             return null;
         }
-
-        //public AndroidElement GetProduct(String namePart, WebDriverWait wait)
-        //{
-        //    ElemHelper.ScrollToElement(driver, namePart);
-        //    var currentProductsList = GetAvailableProducts(wait);
-        //    //wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(_productsList));
-
-        //    for (int i = 0; i < currentProductsList.Count; i++)
-        //    {
-        //        ProductCompactView prodCompactView = new ProductCompactView(driver, currentProductsList[i]);
-        //        if (i == 0)
-        //        {
-        //            Thread.Sleep(3000);
-        //            if (!prodCompactView.IsProductTitleVisible()) continue;
-        //        }
-        //        else if (prodCompactView.GetTitle(wait).Contains(namePart)) return currentProductsList[i];
-        //    }
-        //    return null;
-        //}
-
-
-
-        //public AndroidElement GetToCartButton(AndroidElement androidElement)
-        //{
-        //    return (AndroidElement)androidElement.FindElement(By.XPath(".//android.widget.RelativeLayout/android.widget.ImageView[1]"));
-        //}
-
-        //public AndroidElement GetToWishListButton(AndroidElement androidElement)
-        //{
-        //    return (AndroidElement)androidElement.FindElement(By.XPath(".//android.widget.RelativeLayout/android.widget.ImageView[2]"));
-        //}
-
     }
 }
