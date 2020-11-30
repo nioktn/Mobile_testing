@@ -84,20 +84,5 @@ namespace RozetkaTests
             //CollectionAssert.AreEquivalent(wishListProductsNames, laptopsToAddNames);
             Assert.IsTrue(result[0] & result[1] & result[2]);
         }
-
-        [Test]
-        public void SearchTest()
-        {
-            navPan = new NavigationPanel(driver);
-            Thread.Sleep(5000);
-            navPan.Close();
-            SearchPage searchPage = new SearchPage(driver);
-            searchPage.Open(wait)
-                .EnterSearchQuery("notebook", wait);
-            Thread.Sleep(3000);
-            Thread.Sleep(5000);
-
-
-        }
     }
 }

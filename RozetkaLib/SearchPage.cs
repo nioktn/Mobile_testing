@@ -3,60 +3,83 @@ using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.Interfaces;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace RozetkaLib
 {
     public class SearchPage
     {
-        private readonly AndroidDriver<AndroidElement> driver;
-        private readonly By _srchOpenButton = By.Id("ua.com.rozetka.shop:id/action_search");
-        private readonly By _srchInputField = By.Id("ua.com.rozetka.shop:id/et_search_section");
-        private readonly By _srchOpenField = By.Id("ua.com.rozetka.shop:id/ll_search");
-        private readonly By _srchBackButton = By.Id("ua.com.rozetka.shop:id/iv_back_btn");
-        private readonly By _srchClearButton = By.Id("ua.com.rozetka.shop:id/iv_clear_btn");
+        private readonly AndroidDriver<AndroidElement> _driver;
+        private readonly By _searchOpenButton = By.Id("ua.com.rozetka.shop:id/item_main_v_search");
+        private readonly By _searchInputField = By.Id("ua.com.rozetka.shop:id/search_et_query");
+        private readonly By _searchOpenField = By.Id("ua.com.rozetka.shop:id/ll_search");
+        private readonly By _searchBackButton = By.Id("ua.com.rozetka.shop:id/search_iv_back");
+        private readonly By _searchClearButton = By.Id("ua.com.rozetka.shop:id/search_iv_clear");
+        private readonly By _emptySearchTitle = By.Id("ua.com.rozetka.shop:id/empty_base_tv_title");
 
-        public AndroidElement SearchOpenButton { get => driver.FindElement(_srchOpenButton); }
-        public AndroidElement SearchInputField { get => driver.FindElement(_srchInputField); }
-        public AndroidElement SearchOpenField { get => driver.FindElement(_srchOpenField); }
-        public AndroidElement SrchBackButton { get => driver.FindElement(_srchBackButton); }
-        public AndroidElement SrchClearButton { get => driver.FindElement(_srchClearButton); }
+        public AndroidElement SearchOpenButton
+        {
+            get => _driver.FindElement(_searchOpenButton);
+        }
+
+        public AndroidElement SearchInputField
+        {
+            get => _driver.FindElement(_searchInputField);
+        }
+
+        public AndroidElement SearchOpenField
+        {
+            get => _driver.FindElement(_searchOpenField);
+        }
+
+        public AndroidElement SearchBackButton
+        {
+            get => _driver.FindElement(_searchBackButton);
+        }
+
+        public AndroidElement SearchClearButton
+        {
+            get => _driver.FindElement(_searchClearButton);
+        }
+
+        public AndroidElement SearchEmptyTitle
+        {
+            get => _driver.FindElement(_emptySearchTitle);
+        }
 
         public SearchPage(AndroidDriver<AndroidElement> driver)
         {
-            this.driver = driver;
+            this._driver = driver;
         }
 
-        public SearchPage Open(WebDriverWait wait)
+        public SearchPage OpenSearch(WebDriverWait wait)
         {
-            if (ElemHelper.IsElementVisible(driver, _srchOpenButton))
-            {
-                SearchOpenButton.Click();
-            }
-            else if (ElemHelper.IsElementVisible(driver, _srchOpenField))
-            {
-                SearchOpenField.Click();
-            }
-            ISendsKeyEvents sendsKeyEvents = driver;
-            wait.Until((d) => ElemHelper.IsElementExists(d, _srchInputField));
+            wait.Until(d => ElemHelper.IsElementVisible(d, _searchOpenButton));
+            SearchOpenButton.Click();
+            wait.Until(d => ElemHelper.IsElementExists(d, _searchInputField));
             Thread.Sleep(1000);
-            sendsKeyEvents.PressKeyCode(AndroidKeyCode.Back);
+            _driver.PressKeyCode(AndroidKeyCode.Back);
             return this;
         }
 
         public void EnterSearchQuery(String query, WebDriverWait wait)
         {
-            wait.Until((d) => ElemHelper.IsElementVisible(driver, _srchInputField));
+            wait.Until(d => ElemHelper.IsElementVisible(_driver, _searchInputField));
             SearchInputField.SendKeys(query);
-            ISendsKeyEvents sendsKeyEvents = driver;
-            SearchInputField.Click();
+            var dict = new Dictionary<string, string>
+            {
+                {"action", "search"}
+            };
+            _driver.ExecuteScript("mobile: performEditorAction", dict);
+            Thread.Sleep(1000);
+        }
 
-            SearchInputField.SendKeys(Keys.Enter);
-            sendsKeyEvents.PressKeyCode(AndroidKeyCode.KeycodeNumpad_ENTER);
-            sendsKeyEvents.PressKeyCode(AndroidKeyCode.Enter);
-            sendsKeyEvents.PressKeyCode(AndroidKeyCode.Keycode_ENTER);
-            sendsKeyEvents.PressKeyCode(AndroidKeyCode.Keycode_SEARCH);
-            sendsKeyEvents.PressKeyCode(66);
+        public string GetSearchTitle(WebDriverWait wait)
+        {
+            wait.Until(d => ElemHelper.IsElementVisible(d, _emptySearchTitle));
+            var titleTextValue = SearchEmptyTitle.Text;
+            return titleTextValue;
         }
     }
 }

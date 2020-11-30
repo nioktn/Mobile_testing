@@ -11,5 +11,10 @@ namespace RozetkaLib
 
         public AndroidElement LoginField { get => driver.FindElement(_loginField); }
         public AndroidElement PassField { get => driver.FindElement(_passField); }
+        
+        public RegistrationPage(AndroidDriver<AndroidElement> driver)
+        {
+            this.driver = driver;
+        }
     }
 }
