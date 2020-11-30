@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_RozetkaAppTesting.2001260056.00" t="ExcludeRecursive" />
+    <e p="$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/16.8.0/build/netcoreapp2.1" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.17.0/build/netcoreapp2.1/NUnit3.TestAdapter.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.17.0/build/netcoreapp2.1/NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.17.0/build/netcoreapp2.1/nunit.engine.api.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.17.0/build/netcoreapp2.1/nunit.engine.core.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.17.0/build/netcoreapp2.1/nunit.engine.dll" t="Include" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="RozetkaAppTesting.sln" t="IncludeFlat" />
+      <e p="RozetkaLib" t="IncludeRecursive">
+        <e p="Account" t="Include">
+          <e p="LoginPage.cs" t="Include" />
+          <e p="RegistrationPage.cs" t="Include" />
+        </e>
+        <e p="CartPage.cs" t="Include" />
+        <e p="Catalog" t="Include">
+          <e p="CatalogPage.cs" t="Include" />
+          <e p="LaptopsCategory.cs" t="Include" />
+        </e>
+        <e p="Class1.cs" t="Include" />
+        <e p="ElemHelper.cs" t="Include" />
+        <e p="NavigationPanel.cs" t="Include" />
+        <e p="ProductPage.cs" t="Include" />
+        <e p="Products" t="Include">
+          <e p="CartItemView.cs" t="Include" />
+          <e p="FilterPanel.cs" t="Include" />
+          <e p="ProductCompactView.cs" t="Include" />
+          <e p="ProductsListPage.cs" t="Include" />
+          <e p="SortPanel.cs" t="Include" />
+        </e>
+        <e p="RozetkaLib.csproj" t="IncludeRecursive" />
+        <e p="SearchPage.cs" t="Include" />
+        <e p="WishLists" t="Include">
+          <e p="WishList.cs" t="Include" />
+          <e p="WishListsPage.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="RozetkaLib.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="RozetkaTest" t="IncludeRecursive">
+        <e p="BaseTest.cs" t="Include" />
+        <e p="CartTests.cs" t="Include" />
+        <e p="RozetkaTest.csproj" t="IncludeRecursive" />
+        <e p="Test.cs" t="Include" />
+        <e p="UnitTest1.cs" t="Include" />
+        <e p="WishListsTests.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="RozetkaTest.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
